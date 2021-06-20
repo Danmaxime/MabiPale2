@@ -75,6 +75,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\MabiLib.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -88,6 +91,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigProfiles.cs" />
+    <Compile Include="Filters.cs" />
     <Compile Include="FrmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,6 +124,7 @@
       <DependentUpon>FrmSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="PortableSettingsProvider.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Sign.cs" />
     <Compile Include="WinApi.cs" />
     <Compile Include="PluginManager.cs" />
@@ -152,6 +158,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

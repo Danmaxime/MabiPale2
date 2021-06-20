@@ -32,7 +32,7 @@ namespace MabiPale2
 			Close();
 		}
 
-		private void FrmSettings_Load(object sender, EventArgs e)
+		private void FrmSettings_Load(object sender, EventArgs e /*, string profile*/)
 		{
 			ChkFilterRecvEnabled.Checked = Settings.Default.FilterRecvEnabled;
 			ChkFilterSendEnabled.Checked = Settings.Default.FilterSendEnabled;
@@ -50,6 +50,37 @@ namespace MabiPale2
 			catch
 			{
 			}
+		}
+
+		private void ProfileFilterBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			//BtnSelect.Enabled = true;
+			ComboBox comboBox = (ComboBox)sender;
+			string profile = (string)comboBox.SelectedItem;
+
+			string newRecvText = "";
+			string newSendText = "";
+
+			var configProfiles = new ConfigProfiles();
+			var convertedConfigs = configProfiles.LoadConfigProfiles();
+
+			var recvFilterFromConfig = convertedConfigs.configProfiles[profile].RecvFilter.ToList();
+			var sendFilterFromConfig = convertedConfigs.configProfiles[profile].SendFilter.ToList();
+
+			TxtFilterRecv.Clear();
+			TxtFilterSend.Clear();
+
+            foreach (var recv in recvFilterFromConfig)
+            {
+				newRecvText += recv + " ";
+			}
+			foreach (var send in sendFilterFromConfig)
+			{
+				newSendText += send + " ";
+			}
+
+			TxtFilterRecv.Text = Regex.Replace(newRecvText.TrimStart(), "\r?\n\r?\n?,? ", Environment.NewLine);
+			TxtFilterSend.Text = Regex.Replace(newSendText.TrimStart(), "\r?\n\r?\n?,? ", Environment.NewLine);
 		}
 
 		private void FrmSettings_FormClosing(object sender, FormClosingEventArgs e)
