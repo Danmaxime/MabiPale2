@@ -68,5 +68,15 @@ namespace MabiPale2
                 File.WriteAllText("profiles.cfg", configs_text);
             }
         }
+
+        public void RemoveProfile(string profileName)
+        {
+            var configProfiles = LoadConfigProfiles();
+
+            configProfiles.configProfiles.Remove(profileName);
+
+            string configs_text = JsonConvert.SerializeObject(configProfiles);
+            File.WriteAllText("profiles.cfg", configs_text);
+        }
     }
 }

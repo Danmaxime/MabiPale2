@@ -197,6 +197,8 @@ public class PortableSettingsProvider : SettingsProvider
 			// If it exists, return the InnerText or InnerXML of its first child node, depending on the setting type.
 
 			// If the setting is serialized as a string, return the text stored in the config
+			//throw new Exception();
+
 			if (setProp.SerializeAs.ToString() == "String")
 			{
 				return XMLConfig.SelectSingleNode("//setting[@name='" + setProp.Name + "']").FirstChild.InnerText;
