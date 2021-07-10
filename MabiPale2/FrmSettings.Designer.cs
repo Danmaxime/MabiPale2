@@ -38,9 +38,9 @@ namespace MabiPale2
             this.TabsSettings = new System.Windows.Forms.TabControl();
             this.TabFilters = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.profileFilterBox = new System.Windows.Forms.ComboBox();
-            this.BtnFilterSave = new System.Windows.Forms.Button();
-            this.BtnRemoveProfile = new System.Windows.Forms.Button();
+            this.BtnDeleteProfile = new System.Windows.Forms.Button();
+            this.FilterProfileBox = new System.Windows.Forms.ComboBox();
+            this.BtnProfileSave = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.RadFilterIncludeMode = new System.Windows.Forms.RadioButton();
             this.RadFilterExcludeMode = new System.Windows.Forms.RadioButton();
@@ -98,6 +98,9 @@ namespace MabiPale2
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.BtnDeleteProfile);
+            this.groupBox4.Controls.Add(this.FilterProfileBox);
+            this.groupBox4.Controls.Add(this.BtnProfileSave);
             this.groupBox4.Location = new System.Drawing.Point(6, 65);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(386, 57);
@@ -105,37 +108,39 @@ namespace MabiPale2
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Filter Profiles";
             // 
-            // profileFilterBox
+            // BtnDeleteProfile
             // 
-            this.profileFilterBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.profileFilterBox.DisplayMember = "Default";
-            this.profileFilterBox.FormattingEnabled = true;
-            this.profileFilterBox.Location = new System.Drawing.Point(30, 120);
-            this.profileFilterBox.Name = "profileFilterBox";
-            this.profileFilterBox.Size = new System.Drawing.Size(215, 21);
-            this.profileFilterBox.TabIndex = 0;
-            this.profileFilterBox.SelectedIndexChanged += new System.EventHandler(this.ProfileFilterBox_SelectedIndexChanged);
-            this.profileFilterBox.DropDownClosed += new System.EventHandler(this.ProfileFilterBox_DropDownClosed);
+            this.BtnDeleteProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnDeleteProfile.Location = new System.Drawing.Point(293, 20);
+            this.BtnDeleteProfile.Name = "BtnDeleteProfile";
+            this.BtnDeleteProfile.Size = new System.Drawing.Size(78, 23);
+            this.BtnDeleteProfile.TabIndex = 6;
+            this.BtnDeleteProfile.Text = "Delete Profile";
+            this.BtnDeleteProfile.UseVisualStyleBackColor = true;
+            this.BtnDeleteProfile.Click += new System.EventHandler(this.BtnDeleteProfile_Click);
             // 
-            // BtnFilterSave
+            // FilterProfileBox
             // 
-            this.BtnFilterSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnFilterSave.Location = new System.Drawing.Point(250, 119);
-            this.BtnFilterSave.Name = "BtnFilterSave";
-            this.BtnFilterSave.Size = new System.Drawing.Size(75, 23);
-            this.BtnFilterSave.TabIndex = 2;
-            this.BtnFilterSave.Text = "Save Profile";
-            this.BtnFilterSave.Click += new System.EventHandler(this.SaveProfileBtn_Click);
+            this.FilterProfileBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.FilterProfileBox.DataSource = new ConfigProfiles().LoadConfigProfiles().GetProfileNames();
+            this.FilterProfileBox.FormattingEnabled = true;
+            this.FilterProfileBox.Location = new System.Drawing.Point(6, 21);
+            this.FilterProfileBox.Name = "FilterProfileBox";
+            this.FilterProfileBox.Size = new System.Drawing.Size(185, 21);
+            this.FilterProfileBox.TabIndex = 5;
+            this.FilterProfileBox.SelectedIndexChanged += new System.EventHandler(this.FilterProfileBox_SelectedIndexChanged);
+            this.FilterProfileBox.DropDownClosed += new System.EventHandler(this.FilterProfileBox_DropDownClosed);
             // 
-            // BtnRemoveProfile
+            // BtnProfileSave
             // 
-            this.BtnRemoveProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnRemoveProfile.Location = new System.Drawing.Point(328, 119);
-            this.BtnRemoveProfile.Name = "BtnRemoveProfile";
-            this.BtnRemoveProfile.Size = new System.Drawing.Size(75, 23);
-            this.BtnRemoveProfile.TabIndex = 2;
-            this.BtnRemoveProfile.Text = "Remove";
-            this.BtnRemoveProfile.Click += new System.EventHandler(this.RemoveProfileBtn_Click);
+            this.BtnProfileSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnProfileSave.Location = new System.Drawing.Point(207, 20);
+            this.BtnProfileSave.Name = "BtnProfileSave";
+            this.BtnProfileSave.Size = new System.Drawing.Size(80, 23);
+            this.BtnProfileSave.TabIndex = 3;
+            this.BtnProfileSave.Text = "Save Profile";
+            this.BtnProfileSave.UseVisualStyleBackColor = true;
+            this.BtnProfileSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
             // groupBox3
             // 
@@ -178,7 +183,7 @@ namespace MabiPale2
             this.groupBox2.Controls.Add(this.TxtFilterSend);
             this.groupBox2.Location = new System.Drawing.Point(202, 125);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(190, 90);
+            this.groupBox2.Size = new System.Drawing.Size(190, 197);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Send";
@@ -189,7 +194,7 @@ namespace MabiPale2
             this.ChkFilterSendEnabled.AutoSize = true;
             this.ChkFilterSendEnabled.Checked = true;
             this.ChkFilterSendEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkFilterSendEnabled.Location = new System.Drawing.Point(13, 65);
+            this.ChkFilterSendEnabled.Location = new System.Drawing.Point(13, 172);
             this.ChkFilterSendEnabled.Name = "ChkFilterSendEnabled";
             this.ChkFilterSendEnabled.Size = new System.Drawing.Size(56, 17);
             this.ChkFilterSendEnabled.TabIndex = 8;
@@ -205,7 +210,7 @@ namespace MabiPale2
             this.TxtFilterSend.Multiline = true;
             this.TxtFilterSend.Name = "TxtFilterSend";
             this.TxtFilterSend.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TxtFilterSend.Size = new System.Drawing.Size(168, 35);
+            this.TxtFilterSend.Size = new System.Drawing.Size(168, 142);
             this.TxtFilterSend.TabIndex = 5;
             // 
             // groupBox1
@@ -216,7 +221,7 @@ namespace MabiPale2
             this.groupBox1.Controls.Add(this.TxtFilterRecv);
             this.groupBox1.Location = new System.Drawing.Point(6, 125);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(190, 90);
+            this.groupBox1.Size = new System.Drawing.Size(190, 197);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Recv";
@@ -227,7 +232,7 @@ namespace MabiPale2
             this.ChkFilterRecvEnabled.AutoSize = true;
             this.ChkFilterRecvEnabled.Checked = true;
             this.ChkFilterRecvEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChkFilterRecvEnabled.Location = new System.Drawing.Point(13, 65);
+            this.ChkFilterRecvEnabled.Location = new System.Drawing.Point(13, 172);
             this.ChkFilterRecvEnabled.Name = "ChkFilterRecvEnabled";
             this.ChkFilterRecvEnabled.Size = new System.Drawing.Size(56, 17);
             this.ChkFilterRecvEnabled.TabIndex = 7;
@@ -243,14 +248,14 @@ namespace MabiPale2
             this.TxtFilterRecv.Multiline = true;
             this.TxtFilterRecv.Name = "TxtFilterRecv";
             this.TxtFilterRecv.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TxtFilterRecv.Size = new System.Drawing.Size(168, 35);
+            this.TxtFilterRecv.Size = new System.Drawing.Size(168, 142);
             this.TxtFilterRecv.TabIndex = 5;
             // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.ForeColor = System.Drawing.Color.Gray;
-            this.label1.Location = new System.Drawing.Point(6, 218);
+            this.label1.Location = new System.Drawing.Point(6, 325);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(386, 26);
             this.label1.TabIndex = 1;
@@ -362,11 +367,6 @@ namespace MabiPale2
 
 		}
 
-        private void ChangeBtnNameToProfile(object sender, EventArgs e)
-        {
-			this.BtnFilterSave.Name = this.profileFilterBox.Text;
-        }
-
         #endregion
 
         private System.Windows.Forms.TabControl TabsSettings;
@@ -388,10 +388,10 @@ namespace MabiPale2
 		private System.Windows.Forms.GroupBox groupBox4;
 		private System.Windows.Forms.RadioButton RadFilterIncludeMode;
 		private System.Windows.Forms.RadioButton RadFilterExcludeMode;
-        private ComboBox profileFilterBox;
-        private Button BtnFilterSave;
-        private Button BtnRemoveProfile;
 
 		public static FoundWindow Selection;
+        private ComboBox FilterProfileBox;
+        private Button BtnProfileSave;
+        private Button BtnDeleteProfile;
     }
 }

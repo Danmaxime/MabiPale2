@@ -32,7 +32,7 @@ namespace MabiPale2
 			Close();
 		}
 
-		private void FrmSettings_Load(object sender, EventArgs e /*, string profile*/)
+		private void FrmSettings_Load(object sender, EventArgs e)
 		{
 			ChkFilterRecvEnabled.Checked = Settings.Default.FilterRecvEnabled;
 			ChkFilterSendEnabled.Checked = Settings.Default.FilterSendEnabled;
@@ -52,14 +52,11 @@ namespace MabiPale2
 			}
 		}
 
-		private void ProfileFilterBox_SelectedIndexChanged(object sender, EventArgs e)
+		private void FilterProfileBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			//BtnSelect.Enabled = true;
 			ComboBox comboBox = (ComboBox)sender;
 			string profile = (string)comboBox.SelectedItem;
-
-			string newRecvText = "";
-			string newSendText = "";
 
 			var configProfiles = new ConfigProfiles();
 			var convertedConfigs = configProfiles.LoadConfigProfiles();
@@ -91,15 +88,14 @@ namespace MabiPale2
 			Settings.Default.FilterSend = test1.ToString();
 		}
 
-		private void ProfileFilterBox_DropDownClosed(object sender, EventArgs e)
+		private void FilterProfileBox_DropDownClosed(object sender, EventArgs e)
         {
-			BeginInvoke(new Action(() => { profileFilterBox.Select(profileFilterBox.Text.Length, 0); }));
+			BeginInvoke(new Action(() => { FilterProfileBox.Select(FilterProfileBox.Text.Length, 0); }));
 		}
 
 		private void SaveProfileBtn_Click(object sender, EventArgs e)
         {
-			Button button = (Button)sender;
-			string profile = (string)button.Name;
+			string profile = FilterProfileBox.Text;
 
 			var configProfiles = new ConfigProfiles();
 			var convertedConfigs = configProfiles.LoadConfigProfiles();
@@ -107,8 +103,8 @@ namespace MabiPale2
 			Dictionary<string, Filters> profileToAdd = new Dictionary<string, Filters>();
 			Filters newFilter = new Filters();
 
-			List<string> recvFilter = new List<string>();
-			List<string> sendFilter = new List<string>();
+			HashSet<string> recvFilter = new HashSet<string>();
+			HashSet<string> sendFilter = new HashSet<string>();
 
 			string[] separator = new string[] { "\r\n" };
 
@@ -124,8 +120,8 @@ namespace MabiPale2
 				sendFilter.Add(send);
 			}
 
-			newFilter.RecvFilter = recvFilter;
-			newFilter.SendFilter = sendFilter;
+			newFilter.RecvFilter = new List<string>(recvFilter);
+			newFilter.SendFilter = new List<string>(sendFilter);
 
 			profileToAdd.Add(profile, newFilter);
 
@@ -137,9 +133,9 @@ namespace MabiPale2
 			Close();
 		}
 
-		private void RemoveProfileBtn_Click(object sender, EventArgs e)
+		private void BtnDeleteProfile_Click(object sender, EventArgs e)
         {
-			string profileName = profileFilterBox.Text;
+			string profileName = FilterProfileBox.Text;
 
 			var configProfiles = new ConfigProfiles();
 			var convertedConfigs = configProfiles.LoadConfigProfiles();

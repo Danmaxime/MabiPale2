@@ -18,8 +18,8 @@ namespace MabiPale2
 
                 Filters filter = new Filters();
                 string profileName = "Default";
-                filter.RecvFilter = new List<string> { "09037", "09037", "09037" };
-                filter.SendFilter = new List<string> { "09037", "09037", "09037" };
+                filter.RecvFilter = new List<string> { "0FD13021", "0F44BBA3" };
+                filter.SendFilter = new List<string> { "0F213303", "0FF23431" };
 
                 ConfigProfiles profile = this;
                 profile.configProfiles.Add(profileName, filter);
@@ -38,6 +38,15 @@ namespace MabiPale2
             return configProfiles;
         }
 
+        public List<string> GetProfileNames()
+        {
+            var configProfiles = LoadConfigProfiles();
+
+            List<string> profileNames = new List<string>(configProfiles.configProfiles.Keys);
+
+            return profileNames;
+        }
+
         public void SaveConfig(Dictionary<string, Filters> configProfileToAdd)
         {
             var configProfiles = LoadConfigProfiles();
@@ -50,17 +59,23 @@ namespace MabiPale2
 
             if (profileList.Contains(profileToAddOrChange))
             {
-                configProfiles.configProfiles[profileToAddOrChange].RecvFilter = configProfileToAdd[profileToAddOrChange].RecvFilter;
-                configProfiles.configProfiles[profileToAddOrChange].SendFilter = configProfileToAdd[profileToAddOrChange].SendFilter;
+                HashSet<string> removeDupeRecv = new HashSet<string>(configProfiles.configProfiles[profileToAddOrChange].RecvFilter);
+                HashSet<string> removeDupeSend = new HashSet<string>(configProfiles.configProfiles[profileToAddOrChange].SendFilter);
+
+                configProfiles.configProfiles[profileToAddOrChange].RecvFilter = new List<string>(removeDupeRecv);
+                configProfiles.configProfiles[profileToAddOrChange].SendFilter = new List<string>(removeDupeSend);
 
                 string configs_text = JsonConvert.SerializeObject(configProfiles);
                 File.WriteAllText("profiles.cfg", configs_text);
             }
             else
             {
+                HashSet<string> removeDupeRecv = new HashSet<string>(configProfileToAdd[profileName[0]].RecvFilter);
+                HashSet<string> removeDupeSend = new HashSet<string>(configProfileToAdd[profileName[0]].SendFilter);
+
                 Filters newFilters = new Filters();
-                newFilters.RecvFilter = configProfileToAdd[profileName[0]].RecvFilter;
-                newFilters.SendFilter = configProfileToAdd[profileName[0]].SendFilter;
+                newFilters.RecvFilter = new List<string>(removeDupeRecv);
+                newFilters.SendFilter = new List<string>(removeDupeSend);
 
                 configProfiles.configProfiles.Add(profileName[0], newFilters);
 
